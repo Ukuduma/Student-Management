@@ -23,14 +23,22 @@ namespace Student_Management.Areas.Admin.Controllers
         }
 
         // GET: Admin/Departments
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchCategory, string searchString)
         {
             var departments = from d in _context.Departments
                               select d;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                departments = departments.Where(d => d.Name.Contains(searchString));
+                switch (searchCategory)
+                {
+                    case "Name":
+                        departments = departments.Where(d => d.Name.Contains(searchString));
+                        break;
+                    case "Location":
+                        departments = departments.Where(d => d.Location.Contains(searchString));
+                        break;
+                }
             }
 
             return View(await departments.ToListAsync());

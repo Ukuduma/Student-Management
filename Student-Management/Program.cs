@@ -85,6 +85,22 @@ public class Program
             }
         }
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<Student_ManagementContext>();
+                SeedData.Initialize(services);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions if needed
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
+        }
+
         app.Run();
     }
 }

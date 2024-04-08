@@ -23,14 +23,22 @@ namespace Student_Management.Areas.Admin.Controllers
         }
 
         // GET: Admin/Courses
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchCategory, string searchString)
         {
             var courses = from c in _context.Courses
                           select c;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                courses = courses.Where(c => c.Name.Contains(searchString));
+                switch (searchCategory)
+                {
+                    case "Name":
+                        courses = courses.Where(c => c.Name.Contains(searchString));
+                        break;
+                    case "CourseCode":
+                        courses = courses.Where(c => c.CourseCode.Contains(searchString));
+                        break;
+                }
             }
 
             return View(await courses.ToListAsync());

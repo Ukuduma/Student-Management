@@ -12,7 +12,11 @@
 <div>
     <form asp-action="Index" method="get">
         <p>
-            <input type="text" name="searchString" placeholder="Search by department name">
+            <select name="searchCategory">
+                <option value="Name">Name</option>
+                <option value="Location">Location</option>
+            </select>
+            <input type="text" name="searchString" placeholder="Search">
             <input type="submit" value="Search" />
         </p>
     </form>
